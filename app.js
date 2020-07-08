@@ -1,12 +1,15 @@
 const express = require("express")
-const PORT = 8080
-
 app = express()
-
-app.get("/", (req, res) => {
-  res.send("hello world")
-})
-
-app.listen(PORT, () => {
+//
+app.set("views", __dirname + "/views")
+app.set("view engine", "ejs")
+app.engine("html", require("ejs").renderFile)
+app.use("/static", express.static(__dirname + "/public"))
+//
+const testRouter = require("./routes/test")
+app.use("/", testRouter)
+//
+const port = process.env.PORT || 8080
+app.listen(port, () => {
   console.log("server on!")
 })
